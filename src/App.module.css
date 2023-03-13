@@ -1,0 +1,17 @@
+.container {
+    width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.title {
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+.generateReview {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    cursor: pointer;
+}

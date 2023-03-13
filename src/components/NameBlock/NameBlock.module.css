@@ -1,0 +1,18 @@
+.formBlock {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.507);
+    display: flex;
+    align-items: center;
+}
+
+.label {
+    margin-right: 20px;
+    font-size: 20px;
+}
+
+.studentName {
+    width: 100%;
+    padding: 5px;
+}
