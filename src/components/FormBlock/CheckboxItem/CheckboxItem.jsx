@@ -5,17 +5,21 @@ const CheckboxItem = ({ message, point }) => {
     return (
         <div className={styles.item}>
             <table>
-                <tr>
-                    <td className={styles.messageCell}>
-                        {message}
-                    </td>
-                    <td className={styles.pointCell}>
-                        <span>{point} баллов</span>
-                    </td>
-                    <td className={styles.checkboxCell}>
-                        <input type="checkbox" />
-                    </td>
-                </tr>
+                <thead></thead>
+                <tbody>
+                    <tr>
+                        <td className={styles.messageCell}>
+                            {message}
+                        </td>
+                        <td className={styles.pointCell}>
+                            <span>{point} баллов</span>
+                        </td>
+                        <td className={styles.checkboxCell}>
+                            <input type="checkbox" />
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot></tfoot>
             </table>
         </div>
     )

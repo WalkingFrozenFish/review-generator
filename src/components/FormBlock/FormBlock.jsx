@@ -7,8 +7,8 @@ const FormBlock = ({ title, data }) => {
         <div className={styles.formBlock}>
             <h2 className={styles.title}>{title}:</h2>
             {
-                data.map(item => {
-                    return <CheckboxItem message={item.message} point={item.point} />
+                data.map((item, index) => {
+                    return <CheckboxItem key={index} message={item.message} point={item.point} />
                 })
             }
         </div>
