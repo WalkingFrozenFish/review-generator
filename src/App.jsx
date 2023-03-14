@@ -32,6 +32,14 @@ const App = () => {
         dispatch(generateReviewHandler())
     }
 
+    const copyToClipboardHendler = async (e) => {
+        try {
+            await navigator.clipboard.writeText(e.target.innerText);
+            console.log('Content copied to clipboard');
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+        }
+    }
 
     return (
         <div className={styles.container}>
@@ -46,7 +54,7 @@ const App = () => {
             </div>
 
             <div className={styles.resultCode}>
-                <pre>
+                <pre onClick={copyToClipboardHendler}>
                     {data.htmlCode}
                 </pre>
             </div>
