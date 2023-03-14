@@ -4,6 +4,7 @@ import styles from "./App.module.css"
 import FormBlock from './components/FormBlock/FormBlock'
 import NameBlock from './components/NameBlock/NameBlock'
 import ReviewBlock from './components/ReviewBlock/ReviewBlock'
+import { generateReviewHandler } from './store/reviewSlice'
 
 const App = () => {
     // const recomendationMessages = [
@@ -25,6 +26,11 @@ const App = () => {
     // ]
 
     const data = useSelector((state) => state)
+    const dispatch = useDispatch()
+
+    const generateReview = () => {
+        dispatch(generateReviewHandler())
+    }
 
 
     return (
@@ -33,10 +39,16 @@ const App = () => {
             <div className={styles.reviewForm}>
                 <NameBlock />
                 <ReviewBlock />
-                <FormBlock title="Recomendation" data={data.recomendation} />
-                <FormBlock title="Error" data={data.error} />
-                <FormBlock title="Result" data={data.result} />
-                <button className={styles.generateReview}>Generate review</button>
+                <FormBlock title="Recomendation" category="recomendation" data={data.recomendation} />
+                <FormBlock title="Error" category="error" data={data.error} />
+                <FormBlock title="Result" category="result" data={data.result} />
+                <button className={styles.generateReview} onClick={generateReview}>Generate review</button>
+            </div>
+
+            <div className={styles.resultCode}>
+                <pre>
+                    {data.htmlCode}
+                </pre>
             </div>
         </div>
     )
