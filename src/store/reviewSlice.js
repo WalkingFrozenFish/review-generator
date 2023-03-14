@@ -1,5 +1,40 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { nanoid } from "@reduxjs/toolkit";
+import axios from "axios";
+
+export const getDataItem = createAsyncThunk(
+    "reviewSlice/getDataItem",
+    async (_, { rejectWithValue, getState, dispatch }) => {
+        try {
+            const response = await axios.get("http://localhost:8000/getdata")
+
+            const dataArr = []
+
+            const prepareObjects = () => {
+                response.data.forEach(element => {
+                    const obj = {
+                        message: "",
+                        point: "",
+                        checked: false,
+                        id: nanoid()
+                    }
+
+                    obj.message = element.message
+                    obj.point = element.point
+
+                    dataArr.push(obj)
+                });
+            }
+
+            prepareObjects()
+
+            dispatch(createListItems(dataArr))
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+
 
 const reviewSlice = createSlice({
     name: "reviewSlice",
@@ -7,19 +42,19 @@ const reviewSlice = createSlice({
         studentName: "",
         reviewMessage: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam consectetur, quaerat laborum eum architecto rem, dolorum labore iure ex autem blanditiis accusantium id sequi totam harum corporis saepe adipisci ratione!",
         recomendation: [
-            { message: "Recomendation 1", point: "0.1", checked: false, id: nanoid() },
-            { message: "Recomendation 2", point: "0.2", checked: false, id: nanoid() },
-            { message: "Recomendation 3", point: "0.3", checked: false, id: nanoid() },
+            // { message: "Recomendation 1", point: "0.1", checked: false, id: nanoid() },
+            // { message: "Recomendation 2", point: "0.2", checked: false, id: nanoid() },
+            // { message: "Recomendation 3", point: "0.3", checked: false, id: nanoid() },
         ],
         error: [
-            { message: "Error 1", point: 1.1, checked: false, id: nanoid() },
-            { message: "Error 2", point: 1.2, checked: false, id: nanoid() },
-            { message: "Error 3", point: 1.3, checked: false, id: nanoid() },
+            // { message: "Error 1", point: 1.1, checked: false, id: nanoid() },
+            // { message: "Error 2", point: 1.2, checked: false, id: nanoid() },
+            // { message: "Error 3", point: 1.3, checked: false, id: nanoid() },
         ],
         result: [
-            { message: "Result 1", point: 2.1, checked: false, id: nanoid() },
-            { message: "Result 2", point: 2.2, checked: false, id: nanoid() },
-            { message: "Result 3", point: 2.3, checked: false, id: nanoid() },
+            // { message: "Result 1", point: 2.1, checked: false, id: nanoid() },
+            // { message: "Result 2", point: 2.2, checked: false, id: nanoid() },
+            // { message: "Result 3", point: 2.3, checked: false, id: nanoid() },
         ],
         point: 0,
         htmlCode: ""
@@ -123,10 +158,16 @@ const reviewSlice = createSlice({
             `
 
             // console.log(reviewTemplate)
+        },
+        createListItems(state, action) {
+            state.error = action.payload
         }
+    },
+    extraReducers: {
+
     }
 })
 
-export const { addNameHandler, changeStatusItem, generateReviewHandler } = reviewSlice.actions;
+export const { addNameHandler, changeStatusItem, generateReviewHandler, createListItems } = reviewSlice.actions;
 
 export default reviewSlice.reducer;
