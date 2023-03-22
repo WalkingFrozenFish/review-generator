@@ -41,20 +41,20 @@ const App = () => {
 
 
 
-    useEffect(() => {
-        const prepareHtml = async () => {
-            try {
-                const response = await axios.get("http://localhost:8000/")
-            } catch (error) {
-                console.log(error)
-            }
-        }
+    // useEffect(() => {
+    //     const prepareHtml = async () => {
+    //         try {
+    //             const response = await axios.get("http://localhost:8000/")
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     }
 
-        prepareHtml()
-        dispatch(getRecomendation())
-        dispatch(getError())
-        dispatch(getResult())
-    }, [])
+    //     prepareHtml()
+    //     dispatch(getRecomendation())
+    //     dispatch(getError())
+    //     dispatch(getResult())
+    // }, [])
 
     return (
         <>
