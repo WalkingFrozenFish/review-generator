@@ -1,69 +1,103 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styles from "./App.module.css"
 import FormBlock from './components/FormBlock/FormBlock'
+import Input from './components/Input/Input'
+import Modal from './components/Modal/Modal'
 import NameBlock from './components/NameBlock/NameBlock'
 import ReviewBlock from './components/ReviewBlock/ReviewBlock'
-import { generateReviewHandler, getDataItem } from './store/reviewSlice'
+import { generateReviewHandler, getError, getRecomendation, getResult } from './store/reviewSlice'
 
 const App = () => {
-    // const recomendationMessages = [
-    //     { message: "Recomendation 1", point: "0.1" },
-    //     { message: "Recomendation 2", point: "0.2" },
-    //     { message: "Recomendation 3", point: "0.3" },
-    // ]
+    const [errorModal, setErrorModal] = useState({ message: "", status: false })
+    const [noticeModal, setNoticeModal] = useState(false)
 
-    // const errorMessages = [
-    //     { message: "Error 1", point: 1.1 },
-    //     { message: "Error 2", point: 1.2 },
-    //     { message: "Error 3", point: 1.3 },
-    // ]
-
-    // const resultMessages = [
-    //     { message: "Result 1", point: 2.1 },
-    //     { message: "Result 2", point: 2.2 },
-    //     { message: "Result 3", point: 2.3 },
-    // ]
-
-    const data = useSelector((state) => state)
+    const data = useSelector(state => state)
     const dispatch = useDispatch()
 
-    const generateReview = () => {
-        dispatch(generateReviewHandler())
-    }
-
-    const copyToClipboardHendler = async (e) => {
+    const copyToClipboardHandler = async (e) => {
         try {
             await navigator.clipboard.writeText(e.target.innerText);
-            console.log('Content copied to clipboard');
+            setNoticeModal(true)
         } catch (err) {
-            console.error('Failed to copy: ', err);
+            setErrorModal(true)
         }
     }
 
-    const prepareDocumentHandler = () => {
-        dispatch(getDataItem())
+    const generateReview = () => {
+        if (data.studentName.length === 0) {
+            setErrorModal({
+                message: "Введите имя студента...",
+                status: true
+            })
+        } else {
+            dispatch(generateReviewHandler())
+        }
     }
 
-    return (
-        <div className={styles.container}>
-            <h2 className={styles.title}>Review Generator</h2>
-            <div className={styles.reviewForm}>
-                <NameBlock />
-                <ReviewBlock />
-                <FormBlock title="Recomendation" category="recomendation" data={data.recomendation} />
-                <FormBlock title="Error" category="error" data={data.error} />
-                <FormBlock title="Result" category="result" data={data.result} />
-                <button className={styles.generateReview} onClick={generateReview}>Generate review</button>
-                <button className={styles.generateReview} onClick={prepareDocumentHandler}>Prepare document</button>
-            </div>
 
-            <div className={styles.resultCode}>
-                <pre onClick={copyToClipboardHendler}>
-                    {data.htmlCode}
-                </pre>
+
+
+
+    useEffect(() => {
+        const prepareHtml = async () => {
+            try {
+                const response = await axios.get("http://localhost:8000/")
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        prepareHtml()
+        dispatch(getRecomendation())
+        dispatch(getError())
+        dispatch(getResult())
+    }, [])
+
+    return (
+        <>
+            {
+                noticeModal ?
+                    <Modal handler={() => setNoticeModal(false)} message="Код скопирован в буфер обмена..." type="notice" /> :
+                    null
+            }
+
+            {
+                errorModal.status ?
+                    <Modal handler={() => setErrorModal({ message: "", status: false })} message={errorModal.message} type="error" /> :
+                    null
+            }
+
+            <div className={styles.app}>
+                <div className={styles.header}>
+                    <h2 className={styles.title}>Генератор рецензий:</h2>
+                    <NameBlock />
+                    <ReviewBlock />
+                </div>
+
+                <div className={styles.leftBlock}>
+                    {/* Рекомендации, ошибки, результаты */}
+                    <FormBlock title="Рекомендации" category="recomendation" data={data.recomendation} />
+                    <FormBlock title="Ошибки" category="error" data={data.error} />
+                    <FormBlock title="Результат" category="result" data={data.result} />
+                </div>
+
+                <div className={styles.rightBlock}>
+                    {/* Список ошибок в html */}
+                </div>
+
+                <div className={styles.footer}>
+                    <button className={styles.generate} onClick={generateReview}>Сгенерировать шаблон рецензии</button>
+                    <h2>Количество баллов: { }</h2>
+                    <div className={styles.resultReview}>
+                        <pre onClick={copyToClipboardHandler}>
+                            {data.htmlCode}
+                        </pre>
+                    </div>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

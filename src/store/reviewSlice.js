@@ -2,11 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { nanoid } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const getDataItem = createAsyncThunk(
+export const getRecomendation = createAsyncThunk(
     "reviewSlice/getDataItem",
     async (_, { rejectWithValue, getState, dispatch }) => {
         try {
-            const response = await axios.get("http://localhost:8000/getdata")
+            const response = await axios.get("http://localhost:8000/recomendation")
 
             const dataArr = []
 
@@ -28,7 +28,71 @@ export const getDataItem = createAsyncThunk(
 
             prepareObjects()
 
-            dispatch(createListItems(dataArr))
+            dispatch(createListItems({ dataArr: dataArr, category: "recomendation" }))
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+export const getError = createAsyncThunk(
+    "reviewSlice/getDataItem",
+    async (_, { rejectWithValue, getState, dispatch }) => {
+        try {
+            const response = await axios.get("http://localhost:8000/error")
+
+            const dataArr = []
+
+            const prepareObjects = () => {
+                response.data.forEach(element => {
+                    const obj = {
+                        message: "",
+                        point: "",
+                        checked: false,
+                        id: nanoid()
+                    }
+
+                    obj.message = element.message
+                    obj.point = element.point
+
+                    dataArr.push(obj)
+                });
+            }
+
+            prepareObjects()
+
+            dispatch(createListItems({ dataArr: dataArr, category: "error" }))
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+export const getResult = createAsyncThunk(
+    "reviewSlice/getDataItem",
+    async (_, { rejectWithValue, getState, dispatch }) => {
+        try {
+            const response = await axios.get("http://localhost:8000/result")
+
+            const dataArr = []
+
+            const prepareObjects = () => {
+                response.data.forEach(element => {
+                    const obj = {
+                        message: "",
+                        point: "",
+                        checked: false,
+                        id: nanoid()
+                    }
+
+                    obj.message = element.message
+                    obj.point = element.point
+
+                    dataArr.push(obj)
+                });
+            }
+
+            prepareObjects()
+
+            dispatch(createListItems({ dataArr: dataArr, category: "result" }))
         } catch (error) {
             return rejectWithValue(error.message)
         }
@@ -41,21 +105,9 @@ const reviewSlice = createSlice({
     initialState: {
         studentName: "",
         reviewMessage: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam consectetur, quaerat laborum eum architecto rem, dolorum labore iure ex autem blanditiis accusantium id sequi totam harum corporis saepe adipisci ratione!",
-        recomendation: [
-            // { message: "Recomendation 1", point: "0.1", checked: false, id: nanoid() },
-            // { message: "Recomendation 2", point: "0.2", checked: false, id: nanoid() },
-            // { message: "Recomendation 3", point: "0.3", checked: false, id: nanoid() },
-        ],
-        error: [
-            // { message: "Error 1", point: 1.1, checked: false, id: nanoid() },
-            // { message: "Error 2", point: 1.2, checked: false, id: nanoid() },
-            // { message: "Error 3", point: 1.3, checked: false, id: nanoid() },
-        ],
-        result: [
-            // { message: "Result 1", point: 2.1, checked: false, id: nanoid() },
-            // { message: "Result 2", point: 2.2, checked: false, id: nanoid() },
-            // { message: "Result 3", point: 2.3, checked: false, id: nanoid() },
-        ],
+        recomendation: [],
+        error: [],
+        result: [],
         point: 0,
         htmlCode: ""
     },
@@ -156,11 +208,9 @@ const reviewSlice = createSlice({
     </a>
 </p>
             `
-
-            // console.log(reviewTemplate)
         },
         createListItems(state, action) {
-            state.error = action.payload
+            state[action.payload.category] = action.payload.dataArr
         }
     },
     extraReducers: {
