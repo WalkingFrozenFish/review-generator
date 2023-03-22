@@ -1,0 +1,44 @@
+.title {
+    margin-bottom: 10px;
+}
+
+td {
+    border: 1px solid rgba(0, 0, 0, 0.082);
+}
+
+.tableTitle>p {
+    width: 250px;
+}
+
+.tableInput>input {
+    flex-grow: 1;
+    padding: 5px;
+    width: 100%;
+}
+
+.tableButton>button {
+    padding: 3px 5px;
+    font-size: 18px;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.349);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.377);
+    background-color: transparent;
+    border-radius: 3px;
+    transition: 0.3s;
+    width: 170px;
+}
+
+.tableButton>button:hover {
+    color: #fff;
+    background-color: #000;
+    transition: 0.3s;
+}
+
+.tableButton>button:active {
+    background-color: #222;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.377);
+}
+
+.tableInput {
+    width: 100%;
+}

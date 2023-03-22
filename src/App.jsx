@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styles from "./App.module.css"
+import DocumentInput from './components/DocumentInput/DocumentInput'
 import FormBlock from './components/FormBlock/FormBlock'
 import Input from './components/Input/Input'
 import Modal from './components/Modal/Modal'
@@ -72,6 +73,7 @@ const App = () => {
             <div className={styles.app}>
                 <div className={styles.header}>
                     <h2 className={styles.title}>Генератор рецензий:</h2>
+                    <DocumentInput />
                     <NameBlock />
                     <ReviewBlock />
                 </div>

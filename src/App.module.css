@@ -1,7 +1,7 @@
 .app {
     padding-top: 20px;
     display: grid;
-    grid-template-areas: "header header" "leftBlock rightBlock" "footer footer";
+    grid-template-areas: "header header" "leftBlock leftBlock" "footer footer";
     width: 85%;
     margin: 0 auto;
     gap: 5px;
@@ -18,12 +18,12 @@
 
 .leftBlock {
     grid-area: leftBlock;
-    width: 70%;
+    /* width: 70%; */
 }
 
 .rightBlock {
     grid-area: rightBlock;
-    width: 30%;
+    /* width: 30%; */
 }
 
 .footer {
