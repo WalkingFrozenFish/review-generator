@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import WrapperBlock from '../../containers/WrapperBlock/WrapperBlock'
+import { getError, getRecomendation, getResult } from '../../store/reviewSlice'
 import styles from "./DocumentInput.module.css"
 
 const DocumentInput = () => {
@@ -24,7 +25,7 @@ const DocumentInput = () => {
 
     const getRecomendationHandler = () => {
         if (recomendation.length !== 0) {
-            // dispatch()
+            dispatch(getRecomendation(recomendation))
             console.log(recomendation)
         } else {
             console.log("Напишите ID документа")
@@ -33,7 +34,7 @@ const DocumentInput = () => {
 
     const getErrorHandler = () => {
         if (error.length !== 0) {
-            // dispatch()
+            dispatch(getError(error))
             console.log(error)
         } else {
             console.log("Напишите ID документа")
@@ -42,7 +43,7 @@ const DocumentInput = () => {
 
     const getResultHandler = () => {
         if (result.length !== 0) {
-            // dispatch()
+            dispatch(getResult(result))
             console.log(result)
         } else {
             console.log("Напишите ID документа")

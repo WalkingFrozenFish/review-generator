@@ -4,9 +4,9 @@ import axios from "axios";
 
 export const getRecomendation = createAsyncThunk(
     "reviewSlice/getDataItem",
-    async (_, { rejectWithValue, getState, dispatch }) => {
+    async (documentId, { rejectWithValue, getState, dispatch }) => {
         try {
-            const response = await axios.get("http://localhost:8000/recomendation")
+            const response = await axios.get(`http://localhost:8000/getrecomendation/${documentId}`)
 
             const dataArr = []
 
@@ -36,9 +36,9 @@ export const getRecomendation = createAsyncThunk(
 )
 export const getError = createAsyncThunk(
     "reviewSlice/getDataItem",
-    async (_, { rejectWithValue, getState, dispatch }) => {
+    async (documentId, { rejectWithValue, getState, dispatch }) => {
         try {
-            const response = await axios.get("http://localhost:8000/error")
+            const response = await axios.get(`http://localhost:8000/geterror/${documentId}`)
 
             const dataArr = []
 
@@ -68,9 +68,9 @@ export const getError = createAsyncThunk(
 )
 export const getResult = createAsyncThunk(
     "reviewSlice/getDataItem",
-    async (_, { rejectWithValue, getState, dispatch }) => {
+    async (documentId, { rejectWithValue, getState, dispatch }) => {
         try {
-            const response = await axios.get("http://localhost:8000/result")
+            const response = await axios.get(`http://localhost:8000/getresult/${documentId}`)
 
             const dataArr = []
 
