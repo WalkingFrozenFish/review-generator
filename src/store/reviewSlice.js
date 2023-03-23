@@ -2,115 +2,37 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { nanoid } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const getRecomendation = createAsyncThunk(
-    "reviewSlice/getDataItem",
-    async (documentId, { rejectWithValue, getState, dispatch }) => {
+export const getData = createAsyncThunk(
+    "reviewSlice/getData",
+    async (data, { rejectWithValue, dispatch }) => {
         try {
-            const response = await axios.get(`http://localhost:8000/getrecomendation/${documentId}`)
+            const response = await axios.get(`http://localhost:8000/${data.documentType}/${data.documentId}`)
+            const dataArray = []
 
-            const dataArr = []
+            response.data.forEach(item => {
+                const obj = {
+                    message: item.message,
+                    point: item.point,
+                    checked: false,
+                    id: nanoid()
+                }
 
-            const prepareObjects = () => {
-                response.data.forEach(element => {
-                    const obj = {
-                        message: "",
-                        point: "",
-                        checked: false,
-                        id: nanoid()
-                    }
+                dataArray.push(obj)
+            })
 
-                    obj.message = element.message
-                    obj.point = element.point
-
-                    dataArr.push(obj)
-                });
-            }
-
-            prepareObjects()
-
-            localStorage.setItem("recomendationData", JSON.stringify(dataArr))
-
-            dispatch(createListItems({ dataArr: dataArr, category: "recomendation" }))
+            localStorage.setItem(data.documentType, JSON.stringify(dataArray))
+            dispatch(createListItems({ dataArr: dataArray, category: data.documentType }))
         } catch (error) {
             return rejectWithValue(error.message)
         }
     }
 )
-export const getError = createAsyncThunk(
-    "reviewSlice/getDataItem",
-    async (documentId, { rejectWithValue, getState, dispatch }) => {
-        try {
-            const response = await axios.get(`http://localhost:8000/geterror/${documentId}`)
-
-            const dataArr = []
-
-            const prepareObjects = () => {
-                response.data.forEach(element => {
-                    const obj = {
-                        message: "",
-                        point: "",
-                        checked: false,
-                        id: nanoid()
-                    }
-
-                    obj.message = element.message
-                    obj.point = element.point
-
-                    dataArr.push(obj)
-                });
-            }
-
-            prepareObjects()
-
-            localStorage.setItem("errorData", JSON.stringify(dataArr))
-
-            dispatch(createListItems({ dataArr: dataArr, category: "error" }))
-        } catch (error) {
-            return rejectWithValue(error.message)
-        }
-    }
-)
-export const getResult = createAsyncThunk(
-    "reviewSlice/getDataItem",
-    async (documentId, { rejectWithValue, getState, dispatch }) => {
-        try {
-            const response = await axios.get(`http://localhost:8000/getresult/${documentId}`)
-
-            const dataArr = []
-
-            const prepareObjects = () => {
-                response.data.forEach(element => {
-                    const obj = {
-                        message: "",
-                        point: "",
-                        checked: false,
-                        id: nanoid()
-                    }
-
-                    obj.message = element.message
-                    obj.point = element.point
-
-                    dataArr.push(obj)
-                });
-            }
-
-            prepareObjects()
-
-            localStorage.setItem("resultData", JSON.stringify(dataArr))
-
-            dispatch(createListItems({ dataArr: dataArr, category: "result" }))
-        } catch (error) {
-            return rejectWithValue(error.message)
-        }
-    }
-)
-
 
 const reviewSlice = createSlice({
     name: "reviewSlice",
     initialState: {
         studentName: "",
-        reviewMessage: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam consectetur, quaerat laborum eum architecto rem, dolorum labore iure ex autem blanditiis accusantium id sequi totam harum corporis saepe adipisci ratione!",
+        reviewMessage: "",
         recomendation: [],
         error: [],
         result: [],
@@ -150,7 +72,7 @@ const reviewSlice = createSlice({
             }
         },
         generateReviewHandler(state, action) {
-            console.log(state.studentName)
+            // console.log(state.studentName)
             let recomendationTemplate = ""
             let errorTemplate = ""
             let resultTemplate = ""
@@ -219,30 +141,29 @@ const reviewSlice = createSlice({
             state[action.payload.category] = action.payload.dataArr
         },
         getDataFromLocalStorage(state) {
-            if (localStorage.getItem("recomendationData")) {
-                state.recomendation = JSON.parse(localStorage.getItem("recomendationData"))
+            if (localStorage.getItem("recomendation")) {
+                state.recomendation = JSON.parse(localStorage.getItem("recomendation"))
             }
 
-            if (localStorage.getItem("errorData")) {
-                state.error = JSON.parse(localStorage.getItem("errorData"))
+            if (localStorage.getItem("error")) {
+                state.error = JSON.parse(localStorage.getItem("error"))
             }
 
-            if (localStorage.getItem("resultData")) {
-                state.result = JSON.parse(localStorage.getItem("resultData"))
+            if (localStorage.getItem("result")) {
+                state.result = JSON.parse(localStorage.getItem("result"))
             }
+
+
         },
         resetDataFromLocalStorage(state) {
-            localStorage.removeItem("recomendationData")
-            localStorage.removeItem("errorData")
-            localStorage.removeItem("resultData")
+            localStorage.removeItem("recomendation")
+            localStorage.removeItem("error")
+            localStorage.removeItem("result")
 
             state.recomendation = []
             state.error = []
             state.result = []
         }
-    },
-    extraReducers: {
-
     }
 })
 
