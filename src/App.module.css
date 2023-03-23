@@ -18,12 +18,10 @@
 
 .leftBlock {
     grid-area: leftBlock;
-    /* width: 70%; */
 }
 
 .rightBlock {
     grid-area: rightBlock;
-    /* width: 30%; */
 }
 
 .footer {

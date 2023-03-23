@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import WrapperBlock from '../../containers/WrapperBlock/WrapperBlock';
 import { addNameHandler } from '../../store/reviewSlice';
 import styles from "./NameBlock.module.css"

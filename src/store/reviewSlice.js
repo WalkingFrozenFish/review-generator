@@ -136,6 +136,11 @@ const reviewSlice = createSlice({
             state.error = []
             state.result = []
         }
+    },
+    extraReducers: {
+        [getData.pending]: (state, action) => console.log(action.payload),
+        [getData.fulfilled]: (state, action) => console.log(action.payload),
+        [getData.rejected]: (state, action) => console.log(action.payload)
     }
 })
 
