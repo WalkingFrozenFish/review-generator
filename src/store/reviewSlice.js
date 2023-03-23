@@ -36,7 +36,6 @@ const reviewSlice = createSlice({
         recomendation: [],
         error: [],
         result: [],
-        point: 0,
         htmlCode: ""
     },
     reducers: {
@@ -128,13 +127,12 @@ const reviewSlice = createSlice({
             });
         },
         resetDataFromLocalStorage(state) {
-            localStorage.removeItem("recomendation")
-            localStorage.removeItem("error")
-            localStorage.removeItem("result")
+            const localStorageKeys = ["recomendation", "error", "result"]
 
-            state.recomendation = []
-            state.error = []
-            state.result = []
+            localStorageKeys.forEach(item => {
+                localStorage.removeItem(item)
+                state[item] = []
+            })
         }
     },
     extraReducers: {
