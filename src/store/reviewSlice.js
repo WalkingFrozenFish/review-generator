@@ -50,7 +50,7 @@ const reviewSlice = createSlice({
                 }
             })
         },
-        generateReviewHandler(state, action) {
+        generateReviewHandler(state) {
             let recomendationTemplate = ""
             let errorTemplate = ""
             let resultTemplate = ""
@@ -119,19 +119,13 @@ const reviewSlice = createSlice({
             state[action.payload.category] = action.payload.dataArr
         },
         getDataFromLocalStorage(state) {
-            if (localStorage.getItem("recomendation")) {
-                state.recomendation = JSON.parse(localStorage.getItem("recomendation"))
-            }
+            const localStorageKeys = ["recomendation", "error", "result"]
 
-            if (localStorage.getItem("error")) {
-                state.error = JSON.parse(localStorage.getItem("error"))
-            }
-
-            if (localStorage.getItem("result")) {
-                state.result = JSON.parse(localStorage.getItem("result"))
-            }
-
-
+            localStorageKeys.forEach(item => {
+                if (localStorage.getItem(item)) {
+                    state[item] = JSON.parse(localStorage.getItem(item))
+                }
+            });
         },
         resetDataFromLocalStorage(state) {
             localStorage.removeItem("recomendation")

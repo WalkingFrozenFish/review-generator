@@ -68,13 +68,8 @@ const App = () => {
                     <FormBlock title="Результат" category="result" data={data.result} />
                 </div>
 
-                {/* <div className={styles.rightBlock}> */}
-                {/* Список ошибок в html */}
-                {/* </div> */}
-
                 <div className={styles.footer}>
                     <button className={styles.generate} onClick={generateReview}>Сгенерировать шаблон рецензии</button>
-                    <h2>Количество баллов: { }</h2>
                     <div className={styles.resultReview}>
                         <pre onClick={copyToClipboardHandler}>
                             {data.htmlCode}
