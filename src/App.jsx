@@ -8,7 +8,7 @@ import Input from './components/Input/Input'
 import Modal from './components/Modal/Modal'
 import NameBlock from './components/NameBlock/NameBlock'
 import ReviewBlock from './components/ReviewBlock/ReviewBlock'
-import { generateReviewHandler, getError, getRecomendation, getResult } from './store/reviewSlice'
+import { generateReviewHandler, getDataFromLocalStorage } from './store/reviewSlice'
 
 const App = () => {
     const [errorModal, setErrorModal] = useState({ message: "", status: false })
@@ -37,24 +37,9 @@ const App = () => {
         }
     }
 
-
-
-
-
-    // useEffect(() => {
-    //     const prepareHtml = async () => {
-    //         try {
-    //             const response = await axios.get("http://localhost:8000/")
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     }
-
-    //     prepareHtml()
-    //     dispatch(getRecomendation())
-    //     dispatch(getError())
-    //     dispatch(getResult())
-    // }, [])
+    useEffect(() => {
+        dispatch(getDataFromLocalStorage())
+    }, [])
 
     return (
         <>
@@ -85,9 +70,9 @@ const App = () => {
                     <FormBlock title="Результат" category="result" data={data.result} />
                 </div>
 
-                <div className={styles.rightBlock}>
-                    {/* Список ошибок в html */}
-                </div>
+                {/* <div className={styles.rightBlock}> */}
+                {/* Список ошибок в html */}
+                {/* </div> */}
 
                 <div className={styles.footer}>
                     <button className={styles.generate} onClick={generateReview}>Сгенерировать шаблон рецензии</button>

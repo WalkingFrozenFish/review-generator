@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import WrapperBlock from '../../containers/WrapperBlock/WrapperBlock'
-import { getError, getRecomendation, getResult } from '../../store/reviewSlice'
+import { getError, getRecomendation, getResult, resetDataFromLocalStorage } from '../../store/reviewSlice'
 import styles from "./DocumentInput.module.css"
 
 const DocumentInput = () => {
@@ -50,14 +50,16 @@ const DocumentInput = () => {
         }
     }
 
+    const resetLocalStorage = () => {
+        dispatch(resetDataFromLocalStorage())
+    }
+
     return (
         <WrapperBlock>
             <h2 className={styles.title}>Выбор документов:</h2>
             <table >
                 <thead></thead>
                 <tbody>
-
-
                     <tr className={styles.documentInputTable}>
                         <td className={styles.tableTitle}>
                             <p>ID документа с рекомендациями</p>
@@ -94,6 +96,7 @@ const DocumentInput = () => {
                 </tbody>
                 <tfoot></tfoot>
             </table>
+            <button className={styles.resetButton} onClick={resetLocalStorage}>Удалить данные из локального хранилища</button>
         </WrapperBlock>
     )
 }

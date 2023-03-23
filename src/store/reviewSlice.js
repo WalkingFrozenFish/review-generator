@@ -28,6 +28,8 @@ export const getRecomendation = createAsyncThunk(
 
             prepareObjects()
 
+            localStorage.setItem("recomendationData", JSON.stringify(dataArr))
+
             dispatch(createListItems({ dataArr: dataArr, category: "recomendation" }))
         } catch (error) {
             return rejectWithValue(error.message)
@@ -60,6 +62,8 @@ export const getError = createAsyncThunk(
 
             prepareObjects()
 
+            localStorage.setItem("errorData", JSON.stringify(dataArr))
+
             dispatch(createListItems({ dataArr: dataArr, category: "error" }))
         } catch (error) {
             return rejectWithValue(error.message)
@@ -91,6 +95,8 @@ export const getResult = createAsyncThunk(
             }
 
             prepareObjects()
+
+            localStorage.setItem("resultData", JSON.stringify(dataArr))
 
             dispatch(createListItems({ dataArr: dataArr, category: "result" }))
         } catch (error) {
@@ -211,6 +217,28 @@ const reviewSlice = createSlice({
         },
         createListItems(state, action) {
             state[action.payload.category] = action.payload.dataArr
+        },
+        getDataFromLocalStorage(state) {
+            if (localStorage.getItem("recomendationData")) {
+                state.recomendation = JSON.parse(localStorage.getItem("recomendationData"))
+            }
+
+            if (localStorage.getItem("errorData")) {
+                state.error = JSON.parse(localStorage.getItem("errorData"))
+            }
+
+            if (localStorage.getItem("resultData")) {
+                state.result = JSON.parse(localStorage.getItem("resultData"))
+            }
+        },
+        resetDataFromLocalStorage(state) {
+            localStorage.removeItem("recomendationData")
+            localStorage.removeItem("errorData")
+            localStorage.removeItem("resultData")
+
+            state.recomendation = []
+            state.error = []
+            state.result = []
         }
     },
     extraReducers: {
@@ -218,6 +246,6 @@ const reviewSlice = createSlice({
     }
 })
 
-export const { addNameHandler, changeStatusItem, generateReviewHandler, createListItems } = reviewSlice.actions;
+export const { addNameHandler, changeStatusItem, generateReviewHandler, createListItems, getDataFromLocalStorage, resetDataFromLocalStorage } = reviewSlice.actions;
 
 export default reviewSlice.reducer;
