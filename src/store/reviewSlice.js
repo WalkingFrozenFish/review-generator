@@ -44,35 +44,13 @@ const reviewSlice = createSlice({
             state.studentName = action.payload.name
         },
         changeStatusItem(state, action) {
-            switch (action.payload.category) {
-                case "recomendation":
-                    state.recomendation.map(item => {
-                        if (item.id === action.payload.id) {
-                            item.checked = !item.checked;
-                        }
-                    })
-                    break;
-                case "error":
-                    state.error.map(item => {
-                        if (item.id === action.payload.id) {
-                            item.checked = !item.checked;
-                        }
-                    })
-                    break;
-                case "result":
-                    state.result.map(item => {
-                        if (item.id === action.payload.id) {
-                            item.checked = !item.checked;
-                        }
-                    })
-                    break;
-                default:
-                    console.log("Не правильная категория")
-                    break;
-            }
+            state[action.payload.category].map(item => {
+                if (item.id === action.payload.id) {
+                    item.checked = !item.checked
+                }
+            })
         },
         generateReviewHandler(state, action) {
-            // console.log(state.studentName)
             let recomendationTemplate = ""
             let errorTemplate = ""
             let resultTemplate = ""
